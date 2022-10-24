@@ -1,8 +1,8 @@
-# tinySSD
+# tinySSD-Pytorch
 
 ## 人工智能作业
 
-tinySSD目标检测（平时个人作业）。
+tinySSD目标检测（个人平时作业）。
 
 ### 提交时间
 
@@ -20,7 +20,7 @@ tinySSD目标检测（平时个人作业）。
 
 **备注**：步骤1~4，占比80%；步骤5，占比20%。
 
-### 作业
+
 
 
 
@@ -28,4 +28,43 @@ tinySSD目标检测（平时个人作业）。
 
 ### 环境配置
 
+#### 基本要求
+
+- 计算机具备Nvidia显卡
+
+- Python >= 3.6（推荐使用[Anaconda](https://www.anaconda.com/products/distribution)）
+
+- Pytorch >= 1.12.1
+
+- CUDA >= 11.6
+
+  若已安装Anaconda，可直接在终端运行以下命令（可选执行，若当前环境已满足要求可跳过）：
+
+  ```bash
+  conda create -n tinySSD python=3.6
+  conda activate tinySSD
+  conda install pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
+  ```
+
+#### 安装
+
+1.将项目克隆到本地
+
+```bash
+git clone https://github.com/tsingfa/tinySSD.git
+cd tinySSD
+```
+
+2.安装依赖环境
+
+```bash
+pip install -r requirements.txt
+```
+
+#### 数据准备
+
+
+
+
 ### 训练流程
+
