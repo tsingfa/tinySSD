@@ -63,8 +63,74 @@ pip install -r requirements.txt
 
 #### 数据准备
 
+1.从[Releases](https://github.com/tsingfa/tinySSD/releases/download/untagged-2b3466503a96bea35cbf/data.rar)下载数据集（data.rar）并解压至tinySSD工程文件夹下，数据集按如下形式分布：
 
+```
+├─data
+  │  create_train.py
+  │  
+  ├─background
+  │      000012-16347456122a06.jpg
+  │	    ...
+  │      191313-1519470793f344.jpg
+  │      191328-15136820086f91.jpg
+  │          
+  ├─target
+  │      0.png
+  │      1.png
+  │      
+  └─test
+         1.jpg
+         2.jpg
+```
+
+2.运行create_train.py生成训练集
+
+```bash
+cd data
+python create_train.py
+```
+
+运行完成后，结构如下：
+
+```
+├─data
+  │  create_train.py
+  │  
+  ├─background
+  │      000012-16347456122a06.jpg
+  │	    ...
+  │      191313-1519470793f344.jpg
+  │      191328-15136820086f91.jpg
+  │      
+  ├─sysu_train
+  │  │	 label.csv
+  │  │  
+  │  └─images
+  │          000012-16347456122a06.jpg
+  │		...
+  │          183201-15420187218258.jpg
+  │          
+  ├─target
+  │      0.png
+  │      1.png
+  │      
+  └─test
+         1.jpg
+         2.jpg
+```
 
 
 ### 训练流程
 
+#### 训练
+
+
+
+#### 测试
+
+
+
+
+
+#### 测试结果
