@@ -17,7 +17,7 @@ def load_data(batch_size):
 
 def read_data(is_train=True):
     """读取检测数据集中的图像和标签"""
-    data_dir='data'
+    data_dir= '../data'
     csv_fname=os.path.join(data_dir,'sysu_train' if is_train
                            else 'sysu_val','label.csv')
     csv_data = pd.read_csv(csv_fname)

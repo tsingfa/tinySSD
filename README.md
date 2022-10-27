@@ -63,10 +63,10 @@ pip install -r requirements.txt
 
 #### 数据准备
 
-1.从[Releases](https://github.com/tsingfa/tinySSD/releases/download/untagged-2b3466503a96bea35cbf/data.rar)下载数据集（data.rar）并解压至tinySSD工程文件夹下，数据集按如下形式分布：
+1.从[Releases]()下载数据集（dataset.rar）并解压至tinySSD工程文件夹下，数据集按如下形式分布：
 
 ```
-├─data
+├─dataset
   │  create_train.py
   │  
   ├─background
@@ -87,14 +87,14 @@ pip install -r requirements.txt
 2.运行create_train.py生成训练集
 
 ```bash
-cd data
+cd dataset
 python create_train.py
 ```
 
 运行完成后，结构如下：
 
 ```
-├─data
+├─dataset
   │  create_train.py
   │  
   ├─background
