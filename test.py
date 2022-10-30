@@ -104,13 +104,12 @@ def test():
 
 
 if __name__ == "__main__":
-    net = TinySSD(num_classes=1)
-    net = net.to('cuda')
+    net = TinySSD(num_classes=1).to('cuda')
 
     # 加载模型参数
     net.load_state_dict(torch.load('net_30.pkl', map_location=torch.device('cuda')))
 
-    name = 'detection/test/1.jpg'
+    name = 'detaset/test/*.jpg'
     X = torchvision.io.read_image(name).unsqueeze(0).float()
     img = X.squeeze(0).permute(1, 2, 0).long()
 
