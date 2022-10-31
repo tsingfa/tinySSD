@@ -3,9 +3,11 @@ import torch
 import torch.nn.functional as F
 import torchvision
 import glob
+import os
 from model.tinySSD_model import TinySSD
 from train import box_iou,box_corner_to_center
 from utils.visualizer import display
+from configs import *
 
 
 #########################test##############################
@@ -96,10 +98,13 @@ def test():
     for name in files:
         X = torchvision.io.read_image(name).unsqueeze(0).float()
         img = X.squeeze(0).permute(1, 2, 0).long()
-        place = 'results/' + name.split('\\')[-1]
         output = predict(X)
-        path='saved_figures'+'/'+str(name)[13]
-        display(img, path, output, 0.5)
+
+        save_fig_path='saved_figures/'+train_msg+'+'+str(epoch_test)+'+'+str(threshold)
+        if not os.path.exists(save_fig_path):
+            os.makedirs(save_fig_path)
+        path=save_fig_path+'/'+str(name)[13]
+        display(img, path, output, threshold)
 
     return
 
@@ -108,6 +113,6 @@ if __name__ == "__main__":
     net = TinySSD(num_classes=1).to('cuda')
 
     # 加载模型参数
-    net.load_state_dict(torch.load('saved_weights/net_30.pkl', map_location=torch.device('cuda')))
+    net.load_state_dict(torch.load('saved_weights/'+train_msg+'/'+'net_'+str(epoch_test)+'.pkl', map_location=torch.device('cuda')))
 
     test()
