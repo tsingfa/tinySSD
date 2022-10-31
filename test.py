@@ -2,8 +2,8 @@
 import torch
 import torch.nn.functional as F
 import torchvision
+import glob
 from model.tinySSD_model import TinySSD
-import matplotlib.patches as patches
 from train import box_iou,box_corner_to_center
 from utils.visualizer import display
 
@@ -79,12 +79,7 @@ def multibox_detection(cls_probs, offset_preds, anchors, nms_threshold=0.5,
     return torch.stack(out)
 
 
-def bbox_to_rect(bbox, color):
-    # 将边界框(左上x,左上y,右下x,右下y)格式转换成matplotlib格式：
-    # ((左上x,左上y),宽,高)
-    return patches.Rectangle(
-        xy=(bbox[0], bbox[1]), width=bbox[2] - bbox[0], height=bbox[3] - bbox[1],
-        fill=False, edgecolor=color, linewidth=2)
+
 
 
 def predict(X):
@@ -97,8 +92,14 @@ def predict(X):
 
 
 def test():
-
-
+    files = glob.glob('dataset/test/*.jpg')
+    for name in files:
+        X = torchvision.io.read_image(name).unsqueeze(0).float()
+        img = X.squeeze(0).permute(1, 2, 0).long()
+        place = 'results/' + name.split('\\')[-1]
+        output = predict(X)
+        path='saved_figures'+'/'+str(name)[13]
+        display(img, path, output, 0.5)
 
     return
 
@@ -107,13 +108,6 @@ if __name__ == "__main__":
     net = TinySSD(num_classes=1).to('cuda')
 
     # 加载模型参数
-    net.load_state_dict(torch.load('net_30.pkl', map_location=torch.device('cuda')))
-
-    name = 'detaset/test/*.jpg'
-    X = torchvision.io.read_image(name).unsqueeze(0).float()
-    img = X.squeeze(0).permute(1, 2, 0).long()
-
-    output = predict(X)
-    display(img, output.cpu(), threshold=0.6)
+    net.load_state_dict(torch.load('saved_weights/net_30.pkl', map_location=torch.device('cuda')))
 
     test()
