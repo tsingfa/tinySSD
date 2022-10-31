@@ -13,10 +13,11 @@
 功能描述：可视化展示测试结果
 
 """
-
+import os
 import torch
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from configs import *
 
 def bbox_to_rect(bbox, color):
     # 将边界框(左上x,左上y,右下x,右下y)格式转换成matplotlib格式：
@@ -57,4 +58,22 @@ def display(img, path,output, threshold ):
         bbox = [row[2:6] * torch.tensor((w, h, w, h), device=row.device)]
         show_bboxes(fig.axes, bbox, '%.2f' % score, 'w')
     plt.savefig(path)
+    plt.show()
+
+#解决中文画图的乱码问题
+plt.rcParams['font.sans-serif']=['SimHei']
+plt.rcParams['axes.unicode_minus']=False
+
+def train_plot(cls_err_lst,bbox_mae_lst):
+    plt.plot(cls_err_lst,label="class error")
+    plt.plot(bbox_mae_lst,label="bbox mae")
+    plt.legend(loc='best')
+    plt.xlabel('epoch')
+    plt.ylabel('value')
+    plt.title("训练过程class error与bbox mae变化图")
+
+    train_fig_path='saved_figures/train/cls_err+bbox_mae'
+    if not os.path.exists(train_fig_path):
+        os.makedirs(train_fig_path)
+    plt.savefig(train_fig_path+'/'+train_msg)
     plt.show()
