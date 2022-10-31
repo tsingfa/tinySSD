@@ -14,3 +14,38 @@
 
 """
 
+
+
+#----------------------------model参数----------------------------#
+
+model_zoo=['base','resnet']     #模型选择
+model_train=model_zoo[0]        #选择模型进行训练
+model_test = model_zoo[0]
+
+
+
+#----------------------------train相关参数----------------------------#
+
+
+
+epoch_train=50
+batch_size=32
+lr=0.2
+weight_decay=5e-4
+train_msg=model_train+'+SGD+CosineAnnealingLR+'+str(epoch_train)
+
+
+
+
+#----------------------------test相关参数----------------------------#
+
+epoch_test = 50 # 调用第几个epoch的模型结果进行测试
+threshold = 0.3  # 置信阈值
+
+
+
+#----------------------------data相关参数----------------------------#
+
+
+
+
