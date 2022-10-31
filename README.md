@@ -163,18 +163,56 @@ python create_train.py
 
 #### 训练
 
-
+在训练前，先在configs.py设置好训练相关参数设置（如：训练轮数、batch_size等），设置好后运行train.py即可：
 
 ```bash
-
+python train.py
 ```
 
 
 
 #### 测试
 
+在测试前，先在configs.py设置好训练相关参数设置（如：调用权重的epoch值、方框阈值threshold等），设置好后运行test.py即可：
+
+```bash
+python test.py
+```
+
+#### 测试结果展示
+
+以 base+SGD+余弦退火+50epoch 为例：
+
+![1.png](https://s2.loli.net/2022/10/31/68bfL3qUWwNClJ4.png)
 
 
 
+![2.png](https://s2.loli.net/2022/10/31/kWqsZerICn7TtNE.png)
 
-#### 测试结果
+![8.png](https://s2.loli.net/2022/10/31/mdgjCRZG63pYklc.png)
+
+![7.png](https://s2.loli.net/2022/10/31/DBAgVv4P3mNK5XR.png)
+
+### 模型效果提升探索
+
+模型效果提升可以从多个角度进行尝试和探索：
+
+1. 数据角度：
+
+   （1）数据增强：对训练数据特别是对识别的目标，进行一系列的数据增强操作（如旋转、变色、裁剪、缩放等操作），由此克服识别目标在现实生活中存在的类内差异大的问题。
+
+   （2）增大训练数据量
+
+   （3）使用更接近真实（测试集）的背景
+
+2. 模型角度：增强网络的检测能力
+
+   （1）改进模型结构、引入更强的预训练模型
+
+   （2）增大训练轮数
+
+3. 训练技巧角度：优化训练策略
+
+   （1）使用更好的
+
+   （2）

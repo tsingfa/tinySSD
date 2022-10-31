@@ -28,11 +28,11 @@ model_test = model_zoo[0]
 
 
 
-epoch_train=50
+epoch_train=50  #训练轮数
 batch_size=32
 lr=0.2
 weight_decay=5e-4
-train_msg=model_train+'+SGD+CosineAnnealingLR+'+str(epoch_train)
+train_msg=model_train+'+SGD+CosineAnnealingLR+'+str(epoch_train)    #与图片、权重的命名和保存相关
 
 
 
