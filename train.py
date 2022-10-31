@@ -166,4 +166,4 @@ if __name__ == "__main__":
     train_iter = load_data(batch_size=32)
 
     net = TinySSD(num_classes=1).to('cuda')
-    train(num_epochs=100)
+    train(num_epochs=200)
