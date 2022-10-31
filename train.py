@@ -1,8 +1,12 @@
 
+import os
 import torch
+from torch.optim import lr_scheduler,SGD,Adam
 from dataloader.dataloader import load_data
 from model.tinySSD_model import TinySSD
 from utils.loss import calc_loss
+from configs import *
+from utils.visualizer import train_plot
 
 #########################training##############################
 
@@ -126,16 +130,19 @@ class Accumulator:
         return self.data[idx]
 
 def train(num_epochs):
-    trainer = torch.optim.SGD(net.parameters(), lr=0.2, weight_decay=5e-4)
-
+    trainer = SGD(net.parameters(), lr=lr, weight_decay=weight_decay)
+    scheduler = lr_scheduler.CosineAnnealingLR(trainer, T_max=10)
+    cls_err_lst = []
+    bbox_mae_lst = []
     for epoch in range(num_epochs):
         print('-------------------------------------------')
-        print(f'                  epoch:{epoch}         ')
-        print('-------------------------------------------')
+        print(f'                epoch:{epoch+1}         ')
+        print('-------------------------------------------\n')
         # 训练精确度的和，训练精确度的和中的示例数
         # 绝对误差的和，绝对误差的和中的示例数
         metric = Accumulator(4)
         net.train()
+
         for features, target in train_iter:
             trainer.zero_grad()
             X, Y = features.to('cuda'), target.to('cuda')
@@ -152,18 +159,25 @@ def train(num_epochs):
                        bbox_eval(bbox_preds, bbox_labels, bbox_masks),
                        bbox_labels.numel())
         cls_err, bbox_mae = 1 - metric.data[0] / metric.data[1], metric.data[2] / metric.data[3]
-        print(f'class err {cls_err:.2e}, bbox mae {bbox_mae:.2e}')
+        print(f'class err {cls_err:.2e}, bbox mae {bbox_mae:.2e}\n\n\n')
+        cls_err_lst.append(cls_err)
+        bbox_mae_lst.append(bbox_mae)
 
         # 保存模型参数
-        if epoch % 10 == 0:
-            torch.save(net.state_dict(), './saved_weights/'+'net_' + str(epoch) + '.pkl')
+
+        if not os.path.exists('saved_weights/'+train_msg):
+            os.makedirs('saved_weights/'+train_msg)
+        if (epoch+1) % 10 == 0:
+            torch.save(net.state_dict(), './saved_weights'+'/'+train_msg+'/'+'net_' + str(epoch+1) + '.pkl')
+
+    train_plot(cls_err_lst, bbox_mae_lst)
 
     return
 
 
 if __name__ == "__main__":
 
-    train_iter = load_data(batch_size=32)
+    train_iter = load_data(batch_size)
 
     net = TinySSD(num_classes=1).to('cuda')
-    train(num_epochs=200)
+    train(epoch_train)
